@@ -1,7 +1,39 @@
-const cards = document.querySelectorAll('.card'); //выбираем все элементы с классом card на странице 
-for (let card of cards){
-    card.addEventListener("click", ()=>{
-        card.classList.toggle("card-show");
+
+import { images } from "../data.js";
+
+images.sort(() => Math.random() - 0.5);
+let openCards = [];
+
+
+const container = document.querySelector('.container');
+images.forEach((item) => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.classList.add('card' + item.id);
+    const img = document.createElement('img');
+    img.src = item.url;
+    img.alt = "РєР°СЂС‚РѕС‡РєР°";
+    card.append(img);
+    container.append(card);
+    card.addEventListener("click", () => {
+        if (openCards.length < 2) {
+            card.classList.add("card-show");
+            openCards.push(item);
+            if (openCards.length == 2) {
+                setTimeout(() => {
+                    document.querySelector('.card' + openCards[0].id).classList.remove("card-show");
+                    card.classList.remove("card-show");
+                    openCards = []
+                }, 5000)
+            }
+        }
+
+
+
     });
-}
+})
+
+
+
+
 
